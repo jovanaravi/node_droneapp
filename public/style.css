@@ -116,7 +116,7 @@ input[type="email"] {
 }
 
 .container {
-    margin-left: 35%;
+    margin-left: 75%;
     background: transparent;
     display: flex;
     flex-wrap: wrap;
@@ -138,5 +138,10 @@ input[type="email"] {
 
 .video {
     padding-top: 70px;
-    padding-left: 34%;
+    padding-left: 74%;
+}
+
+#map {
+    height: 500px;
+    width: 800px;
 }

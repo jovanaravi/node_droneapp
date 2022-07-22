@@ -13,11 +13,8 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use("/public", express.static(__dirname + '/public'));
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-})
 
-app.get('/login', (req, res) => {
+app.get('/', (req, res) => {
     res.render('login');
 })
 
@@ -30,19 +27,30 @@ app.get('/signup', (req, res) => {
 app.get('/login/Drone_c', (req, res) => {
     res.render('drone_control');
 })
+app.get('/test', (req, res) => {
+    res.render('test');
+})
 
 
-
-TCP_server.on('connection', (socket) => {
-    console.log('nova konekcija');
-    socket.on('data', (data) => {
-        console.log(data.toString());
+TCP_server.on('connection', (conn) => {
+    console.log('new client');
+    conn.on('data', (data) => {
+        var location = data.toString();
+        var split_data = location.split(" ");
+        var latitude = split_data[0];
+        var longitude = split_data[1];
+        console.log(location);
+        console.log(latitude);
+        console.log(longitude);
+        io.emit('location', location);
     });
 
     io.on('connection', (socket) => {
+
         socket.on('command', (data) => {
             console.log(data);
-            conn.write(data.toString());
+            conn.write(data);
+
         });
     });
 

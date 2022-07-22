@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <link rel="stylesheet" href="../public/style.css">
 </head>
 
@@ -51,7 +52,38 @@
                 }
             </script>
         </div>
+        <div id="map"></div>
+        <script>
+            function initMap() {
+
+
+                var options = {
+                    zoom: 28,
+                    center: {
+
+                        lat: 45.2491764,
+                        lng: 19.8328252
+                    },
+
+                }
+                map = new google.maps.Map(document.getElementById('map'), options)
+                socket.on('location', (data) => {
+                    var location = data.toString();
+                    var split_data = location.split(" ");
+                    var latitude = split_data[0];
+                    var longitude = split_data[1];
+                    console.log(location);
+                    map.setCenter({
+                        lat: parseInt(latitude),
+                        lng: parseInt(longitude)
+                    });
+                });
+
+            }
+        </script>
     </div>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrcZpWxaL4mMNAvwJVyH7UWaY2Hlwdf6o&callback=initMap">
+    </script>
 </body>
 
 </html>
